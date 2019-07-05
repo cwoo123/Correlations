@@ -13,8 +13,16 @@
 #include <TGraphErrors.h>
 #include <TCanvas.h> // ??
 #include <stdio.h> // ??
+#include <iostream>
 
-TGraphErrors* G;
-std::cout << "Test" << std::endl;
-//TFile f("/afs/cern.ch/user/h/hkeller/public/GE11-X-S-INDIA-0004_FreameworkAna.root");
-//f.GetObject('g_iEtaN_clustADC_Fit_PkPos', G);
+using namespace std;
+
+void read(){
+
+TGraphErrors* G = new TGraphErrors();
+TFile f("/afs/cern.ch/user/h/hkeller/public/GE11-X-S-INDIA-0004_FreameworkAna.root");
+f.GetObject('g_iEta1_clustADC_Fit_PkPos', G);
+G->Draw();
+
+
+}
