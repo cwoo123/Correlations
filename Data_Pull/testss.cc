@@ -22,7 +22,7 @@
 
 using namespace std;
 
-void read(){
+void test(){
 
   TObject *graph_obj;
   TGraph *gr[8]; // 8 graphs in array, for each eta partition
