@@ -61,7 +61,6 @@ void Get_GainMap(string chname){
     vector<double> ydata_vec;
     vector<double> xdata_vec;
   	gr[i]=(TGraph*)graph_obj;
-    cout<<graph_obj->GetName()<<" ";
     for(int element = 0; element<gr[i]->GetN(); element++ ){
       xpoint = gr[i]->GetPoint(element, xpoint, ypoint);
       xdata_vec.push_back(xpoint);
@@ -125,7 +124,6 @@ void Get_GainMap(string chname){
   // create TH2 obj
   strcpy(ch_name, chname.c_str());
   strcpy(descript, (chname + ": Gain Map").c_str());
-  TCanvas *canvas = new TCanvas();
   TH2F *Map = new TH2F(ch_name, descript, 8, 0.5, 8.5, 3, 0.5, 3.5);
 
   for(int row=1;row<=8;row++){
@@ -133,7 +131,6 @@ void Get_GainMap(string chname){
     for(int col = 1; col<=3; col++){
       int phi = 3-col+1;
       Map->Fill(eta,phi,abs_gain[eta-1][col-1]);
-      Map_nums->Fill(eta,phi,abs_gain[eta-1][col-1]);
     }
   }
 
@@ -143,6 +140,6 @@ void Get_GainMap(string chname){
   Map->SetZTitle("Gain");
   Map->Draw();
 
-  canvas->SaveAs();
+
 
 }
