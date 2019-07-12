@@ -26,9 +26,9 @@ void Get_GainMap(vector<string>);
 
 void Get_GainMap(vector<string> ch_name){
 
-  for(int i=0; i<ch_name.size();i++){
+  for(int iter=0; iter<ch_name.size();iter++){
 
-    string chname = ch_name.at(i);
+    string chname = ch_name.at(iter);
 
     TObject *graph_obj;
     TGraph *gr[8]; // 8 graphs in array, for each eta partition
@@ -143,8 +143,9 @@ void Get_GainMap(vector<string> ch_name){
     Map->SetXTitle("Eta");
     Map->SetYTitle("Phi");
     Map->SetZTitle("Gain");
+    Map->Draw();
 
-    string OutImgName = chname + ".png";
+    string OutImgName = "/afs/cern.ch/user/c/cwoo/Correlations/OutImg/" + chname + ".png";
     Canvas->SaveAs(OutImgName.c_str());
 
   }
