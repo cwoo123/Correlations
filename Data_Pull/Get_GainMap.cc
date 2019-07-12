@@ -105,6 +105,10 @@ void Get_GainMap(vector<string> ch_name){
     }
     // print values:
 
+    cout<<endl;
+    cout<<"For "<<chname<<":"<<endl;
+    cout<<endl;
+
     cout<<"The mean ADC counts per eta are: "<<endl;
     for(int row=0;row<8;row++){
       for(int col = 0; col<3; col++){
