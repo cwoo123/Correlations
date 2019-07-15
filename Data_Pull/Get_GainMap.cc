@@ -17,9 +17,10 @@
 
 using namespace std;
 
-void Get_GainMap(vector<string>);
+void Get_GainMap(vector<string>, string, string);
 
-void Get_GainMap(vector<string> ch_name){ // takes in vector of chamber names from command line
+// takes in vector of chamber names from command line (ch_name), target ChamberSet folder (opendir), and target ResultsSet folder in Results (savedir)
+void Get_GainMap(vector<string> ch_name, string opendir, string savedir){
 
   for(int iter=0; iter<ch_name.size();iter++){ // iterate over number of chambers in vector
 
@@ -34,12 +35,12 @@ void Get_GainMap(vector<string> ch_name){ // takes in vector of chamber names fr
     vector< vector<double> > partition_mean; // mean value for each partition.
     vector< vector<double> > abs_gain;
     vector<double> eta_mean;
-    char *f_name = new char[100]; // for "variable" object names
+    char *f_name = new char[300]; // for "variable" object names
     char *obj_name = new char[100];
     char *ch_name = new char[100];
     char *descript = new char[100];
 
-    string fname = "/afs/cern.ch/user/c/cwoo/Correlations/Chamber_Uniformity_Data/QC5_Uniformity_" + chname + ".root";
+    string fname = "/afs/cern.ch/user/c/cwoo/Correlations/Chamber_Uniformity_Data/"+opendir+"/QC5_Uniformity_"+chname+".root";
     strcpy(f_name, fname.c_str());
 
     TFile *file = new TFile(f_name, "READ");
@@ -144,7 +145,7 @@ void Get_GainMap(vector<string> ch_name){ // takes in vector of chamber names fr
     Map->SetZTitle("Gain");
     Map->Draw();
 
-    string OutImgName = "/afs/cern.ch/user/c/cwoo/Correlations/Results/" + chname + ".png";
+    string OutImgName = "/afs/cern.ch/user/c/cwoo/Correlations/Results/" + savedir + "/" + chname + ".png";
     Canvas->SaveAs(OutImgName.c_str());
   }
 
