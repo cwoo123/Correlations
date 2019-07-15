@@ -20,7 +20,7 @@ using namespace std;
 void Get_GainMap(vector<string>, string, string);
 
 // takes in vector of chamber names from command line (ch_name), target ChamberSet folder (opendir), and target ResultsSet folder in Results (savedir)
-void Get_GainMap(vector<string> ch_name, string opendir,string savedir){
+void Get_GainMap(vector<string> ch_name, string opendir, string savedir){
 
   for(int iter=0; iter<ch_name.size();iter++){ // iterate over number of chambers in vector
 
@@ -35,7 +35,7 @@ void Get_GainMap(vector<string> ch_name, string opendir,string savedir){
     vector< vector<double> > partition_mean; // mean value for each partition.
     vector< vector<double> > abs_gain;
     vector<double> eta_mean;
-    char *f_name = new char[100]; // for "variable" object names
+    char *f_name = new char[300]; // for "variable" object names
     char *obj_name = new char[100];
     char *ch_name = new char[100];
     char *descript = new char[100];
