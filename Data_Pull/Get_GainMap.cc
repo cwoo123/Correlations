@@ -1,12 +1,7 @@
-// file location /afs/cern.ch/user/h/hkeller/public/GE11-X-S-INDIA-0004_FreameworkAna.root
-// Open file
-// extract tgrapherror objects: with names...g_iEtaN_clustADC_Fit_PkPos where N in 1..8
+// from root file, obtain eta graphs from mgraph object
 // extract data points from each, and store into an vector. 96 data points per eta graph
-// mean values
-
-// extracting from multigraph, graph by graph
-
 // find total average. sectormean/totalmean * 3*10^4
+// draw gain maps for each chamber
 
 #include <TH2.h>
 #include <TFile.h>
@@ -24,9 +19,9 @@ using namespace std;
 
 void Get_GainMap(vector<string>);
 
-void Get_GainMap(vector<string> ch_name){
+void Get_GainMap(vector<string> ch_name){ // takes in vector of chamber names from command line
 
-  for(int iter=0; iter<ch_name.size();iter++){
+  for(int iter=0; iter<ch_name.size();iter++){ // iterate over number of chambers in vector
 
     string chname = ch_name.at(iter);
 
@@ -51,15 +46,14 @@ void Get_GainMap(vector<string> ch_name){
 
     string objname = "Summary/mgraph_"+ chname +"_ResponseFitPkPos_AllEta";
     strcpy(obj_name, objname.c_str());
-
     file->GetObject(obj_name,mg);
     grlist = mg->GetListOfGraphs();
     TIter next(grlist);
 
+    // get ADC counts for each eta
     int i = 0;
     double xpoint = -99999;
     double ypoint = -99999;
-
     while ( (graph_obj = next()) ){
       vector<double> ydata_vec;
       vector<double> xdata_vec;
@@ -69,23 +63,24 @@ void Get_GainMap(vector<string> ch_name){
         xdata_vec.push_back(xpoint);
         ydata_vec.push_back(ypoint);
       }
-
       xdata_mat.push_back(xdata_vec);
       ydata_mat.push_back(ydata_vec);
       i++;
     }
 
+     // split up eta data into phi partitions
     for(int row=0; row<8 ; row++){
       vector<double> phi1_vec(ydata_mat[row].begin(), ydata_mat[row].begin()+32);
       vector<double> phi2_vec(ydata_mat[row].begin()+32, ydata_mat[row].begin()+64);
       vector<double> phi3_vec(ydata_mat[row].begin()+64, ydata_mat[row].begin()+96);
-      double mean_phi1 = accumulate( phi1_vec.begin(), phi1_vec.end(), 0.0)/32;
+      double mean_phi1 = accumulate( phi1_vec.begin(), phi1_vec.end(), 0.0)/32; // find mean for each (eta,phi)
       double mean_phi2 = accumulate( phi2_vec.begin(), phi2_vec.end(), 0.0)/32;
       double mean_phi3 = accumulate( phi3_vec.begin(), phi3_vec.end(), 0.0)/32;
       eta_mean = {mean_phi1, mean_phi2, mean_phi3};
       partition_mean.push_back(eta_mean);
     }
 
+    // obtain mean gain for chamber
     double chamber_sum = 0;
     double chamber_mean = 0;
     for(int row=0;row<8;row++){
@@ -95,7 +90,7 @@ void Get_GainMap(vector<string> ch_name){
     }
     chamber_mean = chamber_sum/24;
 
-    // compute gain per eta
+    // compute gain per eta, store into matrix
     for(int row=0;row<8;row++){
       vector<double> absgain_row;
       for(int col = 0; col<3; col++){
@@ -103,8 +98,8 @@ void Get_GainMap(vector<string> ch_name){
       }
       abs_gain.push_back(absgain_row);
     }
-    // print values:
 
+    // print values:
     cout<<endl;
     cout<<"For "<<chname<<":"<<endl;
     cout<<endl;
@@ -128,7 +123,7 @@ void Get_GainMap(vector<string> ch_name){
     }
     cout<<endl;
 
-    // create TH2 obj
+    // create 2D gain maps
     strcpy(ch_name, chname.c_str());
     strcpy(descript, (chname + ": Gain Map").c_str());
 
@@ -151,7 +146,6 @@ void Get_GainMap(vector<string> ch_name){
 
     string OutImgName = "/afs/cern.ch/user/c/cwoo/Correlations/OutImg/" + chname + ".png";
     Canvas->SaveAs(OutImgName.c_str());
-
   }
 
 }
