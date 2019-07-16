@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <cmath>
+#include <fstream>
 
 using namespace std;
 
@@ -39,10 +40,12 @@ void Get_GainMap(vector<string> ch_name, string opendir, string savedir){
     char *obj_name = new char[100];
     char *ch_name = new char[100];
     char *descript = new char[100];
+    char *txt_name = new char[100];
+    ofstream fout; // write gain data to csv file
+
 
     string fname = "/afs/cern.ch/user/c/cwoo/Correlations/Chamber_Uniformity_Data/"+opendir+"/QC5_Uniformity_"+chname+".root";
     strcpy(f_name, fname.c_str());
-
     TFile *file = new TFile(f_name, "READ");
 
     string objname = "Summary/mgraph_"+ chname +"_ResponseFitPkPos_AllEta";
@@ -131,13 +134,25 @@ void Get_GainMap(vector<string> ch_name, string opendir, string savedir){
     TCanvas *Canvas = new TCanvas();
     TH2F *Map = new TH2F(ch_name, descript, 8, 0.5, 8.5, 3, 0.5, 3.5);
 
+    // open txt file to store values
+    strcpy(txt_name, ("/afs/cern.ch/user/c/cwoo/Correlations/Results/"+savedir+"/"+chname+"_GainVals.csv").c_str());
+    fout.open(txt_name);
+    fout<<"Partitions, Phi 3, Phi 2, Phi 1"<<endl;
+
     for(int row=1;row<=8;row++){
       int eta = 8-row+1;
+      fout<<"Eta "<<eta<<", ";
       for(int col = 1; col<=3; col++){
         int phi = 3-col+1;
         Map->Fill(eta,phi,abs_gain[eta-1][col-1]);
+        fout<<abs_gain[eta-1][col-1]<<",";
       }
+      fout<<endl;
     }
+
+    fout.close();
+    cout<<chname<<"_GainVals.csv created."<<endl;
+    cout<<endl;
 
     Map->SetOption("colz text0");
     Map->SetXTitle("Eta");
