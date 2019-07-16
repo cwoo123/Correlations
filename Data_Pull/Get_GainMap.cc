@@ -3,6 +3,8 @@
 // find total average. sectormean/totalmean * 3*10^4
 // draw gain maps for each chamber
 
+// in ROOT, Get_GainMap({"Chamber Name","Chamber Name 2",...}, "ChamberSet2", "ResultsSet2" )
+
 #include <TH2.h>
 #include <TFile.h>
 #include <TMultiGraph.h>
