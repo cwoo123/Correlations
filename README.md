@@ -12,4 +12,4 @@ Using Get_GainMap.cc:
 - in Root, Get_GainMap({Vec of Chamber Names}, "Folder where QC5 data is stored", "Folder to dump output files" )
   - e.g: Get_GainMap({"GE11-X-S-BARI-0001","GE11-X-S-INDIA-0004"}, "ChamberSet1", "ResultsSet1" )
     - data will be drawn from: /Chamber_Uniformity_Data/ChamberSet1
-    - outputs will be dumped into: /Results/ResultsSet1
+    - outputs (.png + .csv) will be dumped into: /Results/ResultsSet1
