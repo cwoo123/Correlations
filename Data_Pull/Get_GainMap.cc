@@ -1,9 +1,5 @@
-// from root file, obtain eta graphs from mgraph object
-// extract data points from each, and store into an vector. 96 data points per eta graph
-// find total average. sectormean/totalmean * 3*10^4
-// draw gain maps for each chamber
 
-// in ROOT, Get_GainMap({"Chamber Name","Chamber Name 2",...}, "ChamberSet2", "ResultsSet2" )
+// in ROOT, Get_GainMap({"Chamber Name","Chamber Name 2",...}, "ChamberSet2", "ResultsSet2/Gain_10k" )
 
 #include <TH2.h>
 #include <TFile.h>
@@ -44,6 +40,7 @@ void Get_GainMap(vector<string> ch_name, string opendir, string savedir){
     char *descript = new char[100];
     char *txt_name = new char[100];
     ofstream fout; // write gain data to csv file
+    int gain = 1*pow(10,4);
 
 
     string fname = "/afs/cern.ch/user/c/cwoo/Correlations/Chamber_Uniformity_Data/"+opendir+"/QC5_Uniformity_"+chname+".root";
@@ -100,7 +97,7 @@ void Get_GainMap(vector<string> ch_name, string opendir, string savedir){
     for(int row=0;row<8;row++){
       vector<double> absgain_row;
       for(int col = 0; col<3; col++){
-        absgain_row.push_back( (partition_mean[row][col]/chamber_mean)*(3*pow(10,4)) ) ;
+        absgain_row.push_back( (partition_mean[row][col]/chamber_mean)*gain ) ;
       }
       abs_gain.push_back(absgain_row);
     }

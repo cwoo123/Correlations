@@ -6,10 +6,10 @@ Takes data from QC5 gain uniformity files and converts them into Gain Maps for e
 - using the macro /Data_Pull/Get_GainMap.cc, extract data, and output GainMaps + values (CSVs) to /Results.
 
 
-Using Get_GainMap.cc: 
+Using Get_GainMap.cc:
 
 - Load file into Root.
 - in Root, Get_GainMap({Vec of Chamber Names}, "Folder where QC5 data is stored", "Folder to dump output files" )
-  - e.g: Get_GainMap({"GE11-X-S-BARI-0001","GE11-X-S-INDIA-0004"}, "ChamberSet1", "ResultsSet1" )
+  - e.g: Get_GainMap({"GE11-X-S-BARI-0001","GE11-X-S-INDIA-0004"}, "ChamberSet1", "ResultsSet1/Gain_8k" )
     - data will be drawn from: /Chamber_Uniformity_Data/ChamberSet1
     - outputs (.png + .csv) will be dumped into: /Results/ResultsSet1
