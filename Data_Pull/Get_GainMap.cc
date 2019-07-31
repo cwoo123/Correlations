@@ -53,7 +53,7 @@ void Get_GainMap(vector<string> ch_name, string opendir, string savedir){
     grlist = mg->GetListOfGraphs();
     TIter next(grlist);
 
-    // get ADC counts for each eta
+    // get ADC counts for each eta. Etas are obtained in increasing order, IE eta 1 to eta 8.
     int i = 0;
     double xpoint = -99999;
     double ypoint = -99999;
@@ -120,7 +120,7 @@ void Get_GainMap(vector<string> ch_name, string opendir, string savedir){
     cout<<"The absgain/eta's are: "<<endl;
     for(int row=1;row<=8;row++){
       for(int col=1; col<=3; col++){
-        cout<<"Eta "<<row<<" Phi "<<3-col+1<<": "<<abs_gain[row-1][col-1]<<" ";
+        cout<<"Eta "<<row<<" Phi "<<col<<": "<<abs_gain[row-1][col-1]<<" ";
       }
       cout<<endl;
     }
@@ -136,15 +136,16 @@ void Get_GainMap(vector<string> ch_name, string opendir, string savedir){
     // open txt file to store values
     strcpy(txt_name, ("/afs/cern.ch/user/c/cwoo/Correlations/Results/"+savedir+"/"+chname+"_GainVals.csv").c_str());
     fout.open(txt_name);
-    fout<<"Partitions, Phi 3, Phi 2, Phi 1"<<endl;
+    fout<<"Partitions, Phi 1, Phi 2, Phi 3"<<endl;
 
+    // the etas are printed out in the right "geometry", IE eta 1 is bottom, eta 8 is top.
     for(int row=1;row<=8;row++){
       int eta = 8-row+1;
       fout<<"Eta "<<eta<<", ";
       for(int col = 1; col<=3; col++){
-        int phi = 3-col+1;
-        Map->Fill(eta,phi,abs_gain[eta-1][col-1]);
-        fout<<abs_gain[eta-1][col-1]<<",";
+        int phi = col;
+        Map->Fill(eta,phi,abs_gain[eta-1][phi-1]);
+        fout<<abs_gain[eta-1][phi-1]<<",";
       }
       fout<<endl;
     }
