@@ -23,6 +23,6 @@ Using Get_GainDeviation.cc:
     - outputs(.csv) will be dumped into /Results/ChamberSet1/Gain_10k
 
 Threshold_Data
-
+- Threshold data from s-curves
 - Thresholds are constant for all gain, but for convenience in writing commands, added Gain_??k directory.
 - See "opendir" variable in Get_GainDeviation
